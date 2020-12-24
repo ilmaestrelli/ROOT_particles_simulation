@@ -4,10 +4,10 @@
 #include <array>
 #include "ParticleType.h"
 
-ParticleType::ParticleType (const char* Name,const double Mass, const int Charge)  
+ParticleType::ParticleType (std::string const Name, const double Mass, const int Charge)  
                  : fName_(Name), fMass_(Mass), fCharge_(Charge) {};
                  
-const char* ParticleType::GetName() const { return fName_; }
+std::string ParticleType::GetName() const { return fName_; }
 double ParticleType::GetMass() const { return fMass_; }
 int ParticleType::GetCharge() const { return fCharge_; }
 double ParticleType::GetWidth() const { return 0;}

@@ -2,6 +2,7 @@
 #define PARTICLE_H 
 
 #include<array>
+#include<string>
 #include "ResonanceType.h"
 
 static const int fMaxNumParticleType=10;
@@ -9,15 +10,15 @@ static const int fMaxNumParticleType=10;
 class Particle
 {
  public:
-  Particle(char* name, double Px, double Py, double Pz);
+  Particle(std::string name, double Px, double Py, double Pz);
   
   Particle();
   
   int GetIndex() const;
   void SetIndex(int Index);
-  void SetParticleID(char* Name);
+  void SetParticleID(std::string Name);
   
-  static void AddParticleType(char* name, double Mass, int Charge, double Width);
+  static void AddParticleType(std::string name, double Mass, int Charge, double Width);
   
   void ParticleIdentifier() const;
 
@@ -28,7 +29,7 @@ class Particle
   double GetPy() const;
   double GetPz() const;
   
-  const char* GetName() const;
+  std::string GetName() const;
   double GetMass() const;
   int GetCharge() const;
   
@@ -48,7 +49,7 @@ private:
   double  fPx_, fPy_, fPz_;
 
   static int FindParticle(int fIndex);
-  static int FindParticle(char* Name);
+  static int FindParticle(std::string Name);
   
   void Boost(double bx, double by, double bz);
   

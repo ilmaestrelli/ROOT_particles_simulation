@@ -206,10 +206,9 @@ for (int i=0; i<nGen; ++i)
                 }   
               }  //end generation of 10000 events
    
-   
-    gStyle->SetOptFit(1);
+
     
-    //check bin contentsand error of particle type distibution (h1)
+    //check bin content and error of particle type distibution (h1)
     for(int i=1; i<=7; i++) 
     {
      std::cout<<"BIN CONTENT("<<i<<"):\t"<<h1->GetBinContent(i)<<'\n';
@@ -254,19 +253,24 @@ for (int i=0; i<nGen; ++i)
     histoSubPiK->GetXaxis()->SetTitleOffset(1.1);
     histoSubPiK->GetYaxis()->SetTitleOffset(1.2);
     
-    //Fit
+    
+    //Fit  
+    gStyle->SetOptFit(1);
     h1->SetFillColor(kBlue);
     h4->SetLineWidth(1.8);
+    
     auto fP = new TF1("fP","expo"); //exponential
     fP->SetLineColor(kRed); fP->SetLineWidth(0.3);
     h4->Fit(fP,"","",0,10);
     gStyle->SetOptFit(111);
+    
     auto fUniform = new TF1("fUniform","pol0"); //uniform
     fUniform->SetLineColor(kRed); fUniform->SetLineWidth(0.5);
     h2->Fit(fUniform,"","",0,2*M_PI);
     h3->Fit(fUniform,"","",0,M_PI);
     h7->SetLineWidth(1.8);
-    auto fGaus = new TF1("fGaus", "gaus");
+    
+    auto fGaus = new TF1("fGaus", "gaus");  //gaussian
     fGaus->SetLineColor(kRed); fGaus->SetLineWidth(0.3);
     h7->Fit("fGaus","","",0,3);
     histoSubPiK->Fit("fGaus","","",0,3);
@@ -284,10 +288,7 @@ for (int i=0; i<nGen; ++i)
    h3->Draw();
    c1->cd(4);
    h2->Draw();
-// c1-> Print("c1.pdf");
-//  c1-> Print("c1.gif");
-   c1-> Print("c1.root");
-   c1-> Print("c1.C");
+   c1-> Print("c1.pdf");
    
    auto c2 = new TCanvas("c2","c2",10,20,500,600);
    c2->Divide(3,2);
@@ -297,10 +298,25 @@ for (int i=0; i<nGen; ++i)
    histoSub->Draw();
    c2->cd(3);
    histoSubPiK->Draw();
-// c2-> Print("c2.pdf"); 
-//  c2-> Print("c2.gif");
-   c2-> Print("c2.root");
-   c2-> Print("c2.C");
+   c2-> Print("c2.pdf"); 
+   
+   auto c3 = new TCanvas("c3","c3",10,20,500,600);
+   c3->Divide(2, 1);
+   c3->cd(1);
+   c3->cd(2);
+   c3->Print("c3.pdf");
+   
+   auto c5 = new TCanvas("c5", "Impulse Fit",10,20,500,600);
+   c5->Divide(2, 3);
+   c5->cd(1);
+   h10->Draw();
+   c5->cd(2);
+   h11->Draw();
+   c5->cd(3);
+   h12bis->Draw();
+   c5->cd(4);
+ 
+ 
     
     //saving on file
     file->Write();

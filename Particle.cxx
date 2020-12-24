@@ -9,7 +9,7 @@ int Particle::fNParticleType_=0;
 
 std::array<ParticleType*, fMaxNumParticleType> Particle::fParticleType_;
 
-Particle::Particle(char* name, double Px, double Py, double Pz)
+Particle::Particle(std::string name, double Px, double Py, double Pz)
                                  : fPx_(Px), fPy_(Py), fPz_(Pz) 
                             {fIndex_ = FindParticle(name);};
                             
@@ -25,7 +25,7 @@ int Particle::GetIndex() const {return fIndex_;}
   }
 }; */
 
-void Particle::SetParticleID(char* Name)
+void Particle::SetParticleID(std::string Name)
 {
   if (FindParticle(Name) != 10)
   {
@@ -46,7 +46,7 @@ void Particle::SetParticleID(char* Name)
     return fNParticleType_ + 1;
 };  */
  
-int Particle::FindParticle(char* Name)
+int Particle::FindParticle(std::string Name)
 { 
     for (int i = 0; i < fNParticleType_; i++)
     {
@@ -64,7 +64,7 @@ int Particle::FindParticle(char* Name)
     return fNParticleType_ + 1;
 };
 
-void Particle::AddParticleType(char* name, double mass, int charge, double width) 
+void Particle::AddParticleType(std::string name, double mass, int charge, double width) 
 {
   if (fNParticleType_ < fMaxNumParticleType && FindParticle(name) == 10) {
   
@@ -105,7 +105,7 @@ double Particle::GetPy() const {return fPy_;}
 double Particle::GetPz() const {return fPz_;} 
 
 
-const char* Particle::GetName() const { return fParticleType_[fIndex_]->GetName(); }
+std::string Particle::GetName() const { return fParticleType_[fIndex_]->GetName(); }
 
 double Particle::GetMass() const { return fParticleType_[fIndex_]->GetMass(); }
 

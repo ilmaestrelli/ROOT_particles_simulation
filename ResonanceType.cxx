@@ -4,7 +4,7 @@
 #include <array>
 #include "ResonanceType.h"
 
-ResonanceType::ResonanceType (char* Name, double Mass, int Charge, double Width)
+ResonanceType::ResonanceType (std::string Name, double Mass, int Charge, double Width)
               : ParticleType(Name, Mass, Charge), fWidth_{Width} {};
               
 double ResonanceType::GetWidth() const { return fWidth_; }
