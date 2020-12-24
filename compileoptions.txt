@@ -1,0 +1,1 @@
+g++ Particle.cxx ParticleType.cxx ResonanceType.cxx Main.C `root-config --cflags --libs` -O3 
