@@ -19,10 +19,8 @@ int main(){
     auto c2bis = new TCanvas();
     c1bis->Divide(2, 2);
     c2bis->Divide(1, 3);
-       
-    double pi = M_PI;
     
-    TH1F *h[12];
+    TH1F *h[14];
     h[0] = (TH1F *)file->Get("hTypes");
     h[1] = (TH1F *)file->Get("hAzimuthal");
     h[2] = (TH1F *)file->Get("hPolar");
@@ -35,10 +33,11 @@ int main(){
     h[9] = (TH1F *)file->Get("hInvMassPiKDis");
     h[10] = (TH1F *)file->Get("hInvMassPiKCon");
     h[11] = (TH1F *)file->Get("hInvMassDec");
+    h[12] = (TH1F *)file->Get("hSubCharge");
+    h[13] = (TH1F *)file->Get("hSubPiK");
     
     flMC_file->GetList()->Write();
     
-  
     //settings axis
     h[0]->GetXaxis()->SetTitle("Popolazioni");
     h[1]->GetXaxis()->SetTitle("Azimuthal angle (rad)");
@@ -67,11 +66,12 @@ int main(){
     c2bis->cd(1);
     h[11]->Draw();
     c2bis->cd(2);
-    h13->Draw();
+    h[12]->Draw();
     c2bis->cd(3);
-    h14->Draw();
+    h[13]->Draw();
 
-    c1bis->Print("simulation1.pdf");
-    c2bis->Print("simulation2.pdf");
-    
+    c1bis->Print("canvasRelazione1.pdf");
+    c1bis->Print("canvasRelazione1.C");
+    c2bis->Print("canvasRelazione2.pdf");
+    c2bis->Print("canvasRelazione2.C"); 
 }

@@ -37,15 +37,15 @@ int main()
     auto hTypes = new TH1F("hTypes", "PARTICLE TYPES DISTRIBUTION", 8, 0, 8);                           
     auto hAzimuthal = new TH1F("hAzimuthal", "AZIMUTHAL ANGLE DISTRIBUTION (Phi)", 500, 0, 2*pi); 
     auto hPolar = new TH1F("hPolar", "POLAR ANGLE DISTRIBUTION (Theta)", 250, 0, pi);         
-    auto hP = new TH1F("hP", "IMPULSE DISTRIBUTION", 800, 0, 5.5);                        
-    auto hTransverseP = new TH1F("hTransverseP", "TRANSVERSE IMPULSE DISTRIBUTION", 800, 0, 4);                
-    auto hEnergy = new TH1F("hEnergy", "ENERGY DISTRIBUTION", 700, 0, 6);                            
-    auto hInvMass = new TH1F("hInvMass", "INVARIANT MASS DISTRIBUTION", 600, 0, 5);             
+    auto hP = new TH1F("hP", "IMPULSE DISTRIBUTION", 1000, 0, 5.5);                        
+    auto hTransverseP = new TH1F("hTransverseP", "TRANSVERSE IMPULSE DISTRIBUTION", 1000, 0, 4);                
+    auto hEnergy = new TH1F("hEnergy", "ENERGY DISTRIBUTION", 1000, 0, 6);                            
+    auto hInvMass = new TH1F("hInvMass", "INVARIANT MASS DISTRIBUTION", 1000, 0, 5);             
     auto hInvMassDis = new TH1F("hInvMassDis", "INVARIANT MASS DISTRIBUTION OF PARTICLES WITH OPPOSITE CHARGE", 500, 0, 5); 
     auto hInvMassCon = new TH1F("hInvMassCon", "INVARIANT MASS DISTRIBUTION OF PARTICLES WITH CONCORDE CHARGE", 500, 0, 5);      
     auto hInvMassPiKDis = new TH1F("hInvMassPiKDis", "INVARIANT MASS DISTRIBUTION P+/K-, P-/K+", 500, 0, 5);         
     auto hInvMassPiKCon = new TH1F("hInvMassPiKCon", "INVARIANT MASS DISTRIBUTION P+/K+, P-/K-", 500, 0, 5);              
-    auto hInvMassDec = new TH1F("hInvMassDec ", "INVARIANT MASS DISTRIBUTION OF K*", 500, 0.5, 1.2);   
+    auto hInvMassDec = new TH1F("hInvMassDec ", "INVARIANT MASS DISTRIBUTION (K*)", 500, 0.5, 1.2);   
     hInvMassDec->Sumw2();
     
     gStyle->SetOptFit(111);        
@@ -237,17 +237,19 @@ int main()
     hInvMassDec->Draw();
     
     c1->Print("c1.pdf");
+    c1->Print("c1.C");
     c2->Print("c2.pdf");
+    c2->Print("c2.C");
 
     //Cheking bins contents and errors
     const double total= 100*nGen;
-    std::cout << "Pion+   are " << hTypes->GetBinContent(1)/total<< " ± " << hTypes->GetBinError(1)/total<< ",      0.40 expected"<<'\n';
-    std::cout << "Pion-   are " << hTypes->GetBinContent(2)/total<< " ± " << hTypes->GetBinError(2)/total<< ",     0.40 expected"<<'\n';
-    std::cout << "Kaon+   are " << hTypes->GetBinContent(3)/total<< " ± " << hTypes->GetBinError(3)/total << ",    0.05 expected"<<'\n';
-    std::cout << "Kaon-   are " << hTypes->GetBinContent(4)/total << " ± " << hTypes->GetBinError(4)/total << ",   0.05 expected"<<'\n';
-    std::cout << "Proton+ are " << hTypes->GetBinContent(5)/total<< " ± " << hTypes->GetBinError(5)/total<< ",   0.045 expected"<<'\n';
-    std::cout << "Proton- are " << hTypes->GetBinContent(6)/total<< " ± " << hTypes->GetBinError(6)/total<< ",   0.045 expected"<<'\n';
-    std::cout << "K*      are " << hTypes->GetBinContent(7)/total<< " ± " << hTypes->GetBinError(7)/total<< ",     0.01 expected"<<'\n';
+    std::cout << "Pion+   are " << hTypes->GetBinContent(1)/total<< " ± " << hTypes->GetBinError(1)/total<< ",  0.40 expected"<<'\n';
+    std::cout << "Pion-   are " << hTypes->GetBinContent(2)/total<< " ± " << hTypes->GetBinError(2)/total<< ",  0.40 expected"<<'\n';
+    std::cout << "Kaon+   are " << hTypes->GetBinContent(3)/total<< " ± " << hTypes->GetBinError(3)/total << ", 0.05 expected"<<'\n';
+    std::cout << "Kaon-   are " << hTypes->GetBinContent(4)/total << " ± " << hTypes->GetBinError(4)/total << ",0.05 expected"<<'\n';
+    std::cout << "Proton+ are " << hTypes->GetBinContent(5)/total<< " ± " << hTypes->GetBinError(5)/total<< ",  0.045 expected"<<'\n';
+    std::cout << "Proton- are " << hTypes->GetBinContent(6)/total<< " ± " << hTypes->GetBinError(6)/total<< ",  0.045 expected"<<'\n';
+    std::cout << "K*      are " << hTypes->GetBinContent(7)/total<< " ± " << hTypes->GetBinError(7)/total<< ",  0.01 expected"<<'\n';
     
     //c3
     //phi and theta fit
@@ -260,6 +262,7 @@ int main()
     c3->cd(2);
     hPolar->Fit(fitTheta);
     c3->Print("c3.pdf");
+    c3->Print("c3.C");
 
     //c4
     //impulse fit
@@ -267,7 +270,8 @@ int main()
     auto fitImpulse = new TF1("IMPULSE FIT", "expo", 0, 5.5); //exponential
     c4->cd(1);
     hP->Fit(fitImpulse);
-    c4->Print("c4.pdf", "pdf");
+    c4->Print("c4.pdf");
+    c4->Print("c4.C");
     
     //c5
     TCanvas *c5 = new TCanvas("c5", "IMPULSE FIT");
@@ -284,7 +288,7 @@ int main()
     hInvMassDec->Fit(fitDecay);
 
     //subctractions
-    auto hSubPiK = new TH1F("hSubPiK", "K* FROM INVARIANT MASS (P/K)", 500, 0, 5);
+    auto hSubPiK = new TH1F("hSubPiK", "K* FROM INVARIANT MASS (disc./conc. P/K)", 500, 0, 5);
     hSubPiK->Sumw2();
     hSubPiK->Add(hInvMassPiKDis, hInvMassPiKCon, 1, -1);
     auto fitSubPiK = new TF1("Fit subtraction Pion Kaon", "gaus", 0.60, 1.30); //gaussian
@@ -292,13 +296,14 @@ int main()
 
     c5->cd(5);
   
-    auto hSubCharge = new TH1F("hSubCharge", "K* FROM INVARIANT MASS (Charge)", 500, 0, 5);
+    auto hSubCharge = new TH1F("hSubCharge", "K* FROM INVARIANT MASS (disc./conc. Charge)", 500, 0, 5);
     hSubCharge->Sumw2();
     hSubCharge->Add(hInvMassDis, hInvMassCon, 1, -1);
     auto fitSubCharge= new TF1("Fit subtraction invariant masses (charge)", "gaus", 0.65, 1.15); //gaussian
     hSubCharge->Fit(fitSubCharge);
 
     c5->Print("c5.pdf");
+    c5->Print("c5.C");
 
 
     //file writing
