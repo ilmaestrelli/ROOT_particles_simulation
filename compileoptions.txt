@@ -1,1 +1,5 @@
-g++ Particle.cxx ParticleType.cxx ResonanceType.cxx Main.C `root-config --cflags --libs` -O3 
+//COMPILING AND EXECUTABLE
+g++ Particle.cpp ParticleType.cpp ResonanceType.cpp Main.cpp `root-config --cflags --libs` -O3 -o out
+
+//EXECUTION
+./out
