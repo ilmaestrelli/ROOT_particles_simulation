@@ -1,5 +1,11 @@
-//COMPILING AND EXECUTABLE
-g++ Particle.cpp ParticleType.cpp ResonanceType.cpp Main.cpp `root-config --cflags --libs` -O3 -o out
+//COMPILING main
+g++ Particle.cpp ParticleType.cpp ResonanceType.cpp main.cpp `root-config --cflags --libs` -O3 -o out
 
-//EXECUTION
+//EXECUTION main
 ./out
+
+//COMPILING macro
+g++ macro.c `root-config --cflags --libs` -O3 -o macro
+
+//EXECUTION macro
+./macro
