@@ -35,17 +35,17 @@ int main()
     Particle::AddParticleType("K*", 0.89166, 0, 0.050); 
     
     auto hTypes = new TH1F("hTypes", "PARTICLE TYPES DISTRIBUTION", 8, 0, 8);                           
-    auto hAzimuthal = new TH1F("hAzimuthal", "AZIMUTHAL ANGLE DISTRIBUTION (Phi)", 500, 0, 2*pi); 
-    auto hPolar = new TH1F("hPolar", "POLAR ANGLE DISTRIBUTION (Theta)", 250, 0, pi);         
+    auto hAzimuthal = new TH1F("hAzimuthal", "AZIMUTHAL ANGLE DISTRIBUTION (Phi)", 1000, 0, 2*pi); 
+    auto hPolar = new TH1F("hPolar", "POLAR ANGLE DISTRIBUTION (Theta)", 1000, 0, pi);         
     auto hP = new TH1F("hP", "IMPULSE DISTRIBUTION", 1000, 0, 5.5);                        
     auto hTransverseP = new TH1F("hTransverseP", "TRANSVERSE IMPULSE DISTRIBUTION", 1000, 0, 4);                
     auto hEnergy = new TH1F("hEnergy", "ENERGY DISTRIBUTION", 1000, 0, 6);                            
-    auto hInvMass = new TH1F("hInvMass", "INVARIANT MASS DISTRIBUTION", 1000, 0, 5);             
-    auto hInvMassDis = new TH1F("hInvMassDis", "INVARIANT MASS DISTRIBUTION OF PARTICLES WITH OPPOSITE CHARGE", 500, 0, 5); 
-    auto hInvMassCon = new TH1F("hInvMassCon", "INVARIANT MASS DISTRIBUTION OF PARTICLES WITH CONCORDE CHARGE", 500, 0, 5);      
-    auto hInvMassPiKDis = new TH1F("hInvMassPiKDis", "INVARIANT MASS DISTRIBUTION P+/K-, P-/K+", 500, 0, 5);         
-    auto hInvMassPiKCon = new TH1F("hInvMassPiKCon", "INVARIANT MASS DISTRIBUTION P+/K+, P-/K-", 500, 0, 5);              
-    auto hInvMassDec = new TH1F("hInvMassDec ", "INVARIANT MASS DISTRIBUTION (K*)", 500, 0.5, 1.2);   
+    auto hInvMass = new TH1F("hInvMass", "INVARIANT MASS DISTRIBUTION", 1000, 0, 3);             
+    auto hInvMassDis = new TH1F("hInvMassDis", "INVARIANT MASS DISTRIBUTION OF PARTICLES WITH OPPOSITE CHARGE", 500, 0, 3); 
+    auto hInvMassCon = new TH1F("hInvMassCon", "INVARIANT MASS DISTRIBUTION OF PARTICLES WITH CONCORDE CHARGE", 500, 0, 3);      
+    auto hInvMassPiKDis = new TH1F("hInvMassPiKDis", "INVARIANT MASS DISTRIBUTION P+/K-, P-/K+", 500, 0, 3);         
+    auto hInvMassPiKCon = new TH1F("hInvMassPiKCon", "INVARIANT MASS DISTRIBUTION P+/K+, P-/K-", 500, 0, 3);              
+    auto hInvMassDec = new TH1F("hInvMassDec ", "INVARIANT MASS DISTRIBUTION (K*)", 500, 0, 3);   
     hInvMassDec->Sumw2();
     
     gStyle->SetOptFit(111);        
@@ -99,8 +99,7 @@ int main()
             
             else if (p < 0.995)
             { 
-                particles[j].SetParticleID("K*");
-                hTypes->Fill(6);
+                particles[j].SetParticleID("K*"); hTypes->Fill(6);
                 particles[100 + nResonance].SetParticleID("Pion+");
                 particles[100 + nResonance + 1].SetParticleID("Kaon-");
                 particles[j].Decay2body(particles[100 + nResonance], particles[100 + nResonance + 1]);
@@ -109,8 +108,7 @@ int main()
             }
             else
             { 
-                particles[j].SetParticleID("K*");
-                hTypes->Fill(6);
+                particles[j].SetParticleID("K*"); hTypes->Fill(6);
                 particles[100 + nResonance].SetParticleID("Pion-");
                 particles[100 + nResonance + 1].SetParticleID("Kaon+");
                 particles[j].Decay2body(particles[100 + nResonance], particles[100 + nResonance + 1]);
@@ -255,7 +253,7 @@ int main()
     //phi and theta fit
     TCanvas *c3 = new TCanvas("c3", "ANGLES FIT");
     c3->Divide(2, 1);
-    auto fitPhi = new TF1("AZIMUTHAL ANGLE FIT", "pol0", 0, 2 * pi); 
+    auto fitPhi = new TF1("AZIMUTHAL ANGLE FIT", "pol0", 0, 2 * pi); //pol0
     auto fitTheta = new TF1("POLAR ANGLE FIT", "pol0", 0, pi);
     c3->cd(1);
     hAzimuthal->Fit(fitPhi);
@@ -288,24 +286,25 @@ int main()
     hInvMassDec->Fit(fitDecay);
 
     //subctractions
-    auto hSubPiK = new TH1F("hSubPiK", "K* FROM INVARIANT MASS (disc./conc. P/K)", 500, 0, 5);
+    auto hSubPiK = new TH1F("hSubPiK", "INVARIANT MASS DISTRIBUTION (disc./conc. Pions-Kaons)", 500, 0, 3);
     hSubPiK->Sumw2();
     hSubPiK->Add(hInvMassPiKDis, hInvMassPiKCon, 1, -1);
-    auto fitSubPiK = new TF1("Fit subtraction Pion Kaon", "gaus", 0.60, 1.30); //gaussian
+    auto fitSubPiK = new TF1("Fit subtraction Pion Kaon", "gaus", 0.6, 3); //gaussian
     hSubPiK->Fit(fitSubPiK);
-
+    hSubPiK->SetEntries(hSubPiK->Integral());
+     
     c5->cd(5);
   
-    auto hSubCharge = new TH1F("hSubCharge", "K* FROM INVARIANT MASS (disc./conc. Charge)", 500, 0, 5);
+    auto hSubCharge = new TH1F("hSubCharge", "INVARIANT MASS DISTRIBUTION (disc./conc. charge)", 500, 0, 3);
     hSubCharge->Sumw2();
     hSubCharge->Add(hInvMassDis, hInvMassCon, 1, -1);
-    auto fitSubCharge= new TF1("Fit subtraction invariant masses (charge)", "gaus", 0.65, 1.15); //gaussian
+    auto fitSubCharge= new TF1("Fit subtraction invariant masses (charge)", "gaus", 0.6, 3); //gaussian
     hSubCharge->Fit(fitSubCharge);
+    hSubCharge->SetEntries(hSubCharge->Integral());
 
     c5->Print("c5.pdf");
     c5->Print("c5.C");
-
-
+    
     //file writing
     file->Write();
     file->Close();

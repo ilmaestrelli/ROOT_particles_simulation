@@ -13,7 +13,6 @@ int main(){
     gStyle->SetOptStat(210);
 
     TFile *file = TFile::Open("analysis.root");
-    TFile *flMC_file = new TFile("local.root");
         
     auto c1bis = new TCanvas();
     auto c2bis = new TCanvas();
@@ -36,18 +35,18 @@ int main(){
     h[12] = (TH1F *)file->Get("hSubCharge");
     h[13] = (TH1F *)file->Get("hSubPiK");
     
-    flMC_file->GetList()->Write();
+    //cosmetic
+    h[0]->SetFillColor(kBlue);
     
-    //settings axis
-    h[0]->GetXaxis()->SetTitle("Popolazioni");
+    h[0]->GetXaxis()->SetTitle("Particle types");
     h[1]->GetXaxis()->SetTitle("Azimuthal angle (rad)");
     h[2]->GetXaxis()->SetTitle("Polar angle (rad)");
-    h[3]->GetXaxis()->SetTitle("Impulse module (GeV)");
-    h[4]->GetXaxis()->SetTitle("Invariant Mass (GeV/c^2)");
-    h[5]->GetXaxis()->SetTitle("Invariant Mass(GeV/c^2)");
-    h[6]->GetXaxis()->SetTitle("Invariant Mass(GeV/c^2)");
+    h[3]->GetXaxis()->SetTitle("Impulse (GeV)");
+    h[11]->GetXaxis()->SetTitle("Invariant Mass (GeV/c^2)");
+    h[12]->GetXaxis()->SetTitle("Invariant Mass(GeV/c^2)");
+    h[13]->GetXaxis()->SetTitle("Invariant Mass(GeV/c^2)");
     
-    for (int i=0; i<7; ++i) 
+    for (int i=0; i<14; ++i) 
      {
         h[i]->GetYaxis()->SetTitle("Occurrences");
      }
@@ -69,9 +68,12 @@ int main(){
     h[12]->Draw();
     c2bis->cd(3);
     h[13]->Draw();
-
+     
+    //print final canvas
     c1bis->Print("canvasRelazione1.pdf");
     c1bis->Print("canvasRelazione1.C");
+    c1bis->Print("canvasRelazione1.root");
     c2bis->Print("canvasRelazione2.pdf");
     c2bis->Print("canvasRelazione2.C"); 
+    c2bis->Print("canvasRelazione2.root"); 
 }
